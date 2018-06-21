@@ -10,8 +10,8 @@ $(document).ready(function () {
     var mkContBtn = $("<button id='continue'>Continue</button>");
     var gameSpaceFiller = "<div class='goal-container'><div id='goal-grid'></div></div><div class='puzzle-container'><div id='puzzle-grid'></div></div>"
 
-    var timer = undefined;
-    var time = 15;
+    var time = 00;
+    var clock = undefined;
 
     //puzzles
     var puzzle1 = [270, 0, 90, 180];
@@ -50,12 +50,12 @@ $(document).ready(function () {
         $("#game-space").empty();
         if (phase === (allPuzzles.length - 1)) {
             info.html("<p>That's all the puzzles!</p>" +
-        "<p>Let's see how you did:</p>")
-        $("#stats").html(`<div class='solved'>Solved: ${solved} </div><div class='unsolved'>Unsolved: ${unsolved}</div>`);
+                "<p>Let's see how you did:</p>")
+            $("#stats").html(`<div class='solved'>Solved: ${solved} </div><div class='unsolved'>Unsolved: ${unsolved}</div>`);
         }
         else {
             if (phase === 0) {
-                info.html("<p>Make the puzzle on the right-hand side match " +
+                info.html("<p>Make the puzzle match " +
                     "the image on the left before time runs out!</p>");
             }
             else {
@@ -122,6 +122,7 @@ $(document).ready(function () {
                 console.log(puzzleRoll.join(", "));
 
             } // end if solved
+            return isSolved;
         });
     };
 

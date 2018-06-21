@@ -1,19 +1,50 @@
+@import url('https://fonts.googleapis.com/css?family=Quantico:400,700');
+
 * {
     box-sizing: border-box;
 }
 
 body {
-    background-color: #b1b1b1;
+    font-size: 16px;
+    font-family: 'Futura', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #dfdfdf;
     text-align: center;
+    background-image: url(../images/country-quilt.png);
 }
 
 img {
     max-width: 100%;
 }
 
+button {
+    font-size: 1.5em;
+    margin: 8px;
+    border-radius: 6px;
+    padding: 5px 10px;
+    outline-color: red;
+}
+
+h1 {
+    font-size: 3em;
+    color: red;
+    font-family: 'Quantico', 'Futura', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    text-shadow: 0px 3px 10px rgba(50, 50, 50, 0.5);
+}
+
 .container {
     width: 90%;
     margin: auto;
+}
+
+.content {
+    display: inline-block;
+}
+
+#info p {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+    padding: 20px 25px;
 }
 
 header {
@@ -25,6 +56,10 @@ header {
 
 #timer {
     float:right;
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding-top: 10px;
 }
 
 #block,
@@ -47,9 +82,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3d3d', end
 .puzzle-container {
     display: flex;
     justify-content: center;
-    border-radius: 8px;
-    padding: 15px;
-    background-color: grey;
+    border-radius: 5px;
+    padding: 15px 35px;
+    background-color: rgba(69, 69, 69, 0.6);
 }
 
 #goal-grid,
