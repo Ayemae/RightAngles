@@ -55,8 +55,8 @@ $(document).ready(function () {
         }
         else {
             if (phase === 0) {
-                info.html("<p>Make the puzzle on the left-hand side match " +
-                    "the image on the ride-hand side before time runs out!</p>");
+                info.html("<p>Make the puzzle on the right-hand side match " +
+                    "the image on the left before time runs out!</p>");
             }
             else {
                 if (isSolved === false) {
