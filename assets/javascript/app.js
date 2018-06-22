@@ -105,7 +105,6 @@ $(document).ready(function () {
 
     function puzzle(answerArr, puzArr, p) {
         // Set game up
-        isSolved = false;
         time = (answerArr.length * 2);
         console.log(answerArr.length);
         runTimer();
@@ -143,7 +142,7 @@ $(document).ready(function () {
                     $(this).css('transform', 'rotate(' + rotation[r + 1] + 'deg)');
                     puzArr[val] = rotation[r + 1];
                 }
-                checkForSolved(answerArr, puzzleRoll);
+                checkForSolved(allPuzzles[phase], puzzleRoll);
                 console.log(isSolved);
                 console.log(puzzleRoll.join(", "));
             } // end if solved
