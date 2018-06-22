@@ -61,7 +61,7 @@ $(document).ready(function () {
                 "<p>Let's see how you did:</p>")
             info.append(`<div class='solved'>Solved: ${solved} </div><div class='unsolved'>Unsolved: ${unsolved}</div>`);
             info.append(mkRestartBtn);
-            // start puzzle when you click continue
+            // restart button
             $("#restart").on("click", function () {
                 restartGame();
             });
@@ -124,9 +124,9 @@ $(document).ready(function () {
             )
         }
         // No self-solving puzzles!
-        checkForSolved(answerArr, puzzleRoll); {
+        checkForSolved(allPuzzles[phase], puzzleRoll); {
             if (isSolved === true) {
-                puzArr[0] = puzArr[1] = puzArr[2] = puzArr[3] = rotation[2];
+                puzArr[0] = puzArr[1] = puzArr[2] = puzArr[3] = 0;
                 isSolved = false;
             }
         }
@@ -143,7 +143,6 @@ $(document).ready(function () {
                     puzArr[val] = rotation[r + 1];
                 }
                 checkForSolved(allPuzzles[phase], puzzleRoll);
-                console.log(isSolved);
                 console.log(puzzleRoll.join(", "));
             } // end if solved
         }); // end on-click
