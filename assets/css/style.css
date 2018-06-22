@@ -62,13 +62,15 @@ header {
     padding-top: 10px;
 }
 
-#block,
+/* #block,
 #static-block {
-    background: rgb(255,61,61); /* Old browsers */
-background: -moz-linear-gradient(45deg, rgba(255,61,61,1) 0%, rgba(255,40,40,1) 49%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(45deg, rgba(255,61,61,1) 0%,rgba(255,40,40,1) 49%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(45deg, rgba(255,61,61,1) 0%,rgba(255,40,40,1) 49%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3d3d', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+} */
+
+.block-color {
+    background: -moz-linear-gradient(45deg, rgba(255,40,40,1) 0%, rgba(255,40,40,1) 49%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg, rgba(255,40,40,1) 0%,rgba(255,40,40,1) 49%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg, rgba(255,40,40,1) 0%,rgba(255,40,40,1) 49%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3d3d', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 #game-space {
@@ -128,7 +130,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3d3d', end
 }
 
 .puzzle-6,
-.puzzle-7 {
+.puzzle-7,
+.puzzle-8,
+.puzzle-9,
+.puzzle-10 {
     grid-template-columns: 65px 65px 65px 65px 65px;
     grid-template-rows: 65px 65px 65px 65px 65px;
 }

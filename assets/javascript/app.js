@@ -11,7 +11,7 @@ $(document).ready(function () {
     var mkRestartBtn = $("<button id='restart'>Play Again</button>");
     var gameSpaceFiller = "<div class='goal-container'><div id='goal-grid'></div></div><div class='puzzle-container'><div id='puzzle-grid'></div></div>"
 
-    var time = 00;
+    var time = 32;
     var clock = undefined;
 
     //puzzles
@@ -21,7 +21,11 @@ $(document).ready(function () {
     var puzzle4 = [0, 270, 0, 270, 90, 180, 90, 180, 270, 90, 180, 0, 180, 0, 270, 90];
     var puzzle5 = [0, 180, 90, 180, 180, 0, 180, 270, 270, 90, 0, 180, 180, 0, 270, 0];
     var puzzle6 = [180, 270, 0, 90, 180, 270, 180, 90, 0, 270, 90, 180, 270, 0, 90, 0, 270, 180, 90, 0, 180, 270, 0, 90, 180];
-    var allPuzzles = [0, puzzle1, puzzle2, puzzle3, puzzle4, puzzle5, puzzle6]
+    var puzzle7 = [];
+    var puzzle8 = [];
+    var puzzle9 = [];
+    var puzzle10 = [];
+    var allPuzzles = [0, puzzle1, puzzle2, puzzle3, puzzle4, puzzle5, puzzle6, puzzle7, puzzle8, puzzle9, puzzle10]
     var puzzleRoll = [];
 
 
@@ -40,6 +44,9 @@ $(document).ready(function () {
             stopTimer();
             startScreen();
             $("#timer").html(time + " seconds");
+            if ((time === 0) && (isSolved === false)) {
+                unsolved++;
+            }
         }
     }
 
@@ -66,12 +73,10 @@ $(document).ready(function () {
             }
             else {
                 if (isSolved === false) {
-                    unsolved++;
                     info.html("<p>Too bad. " +
                         "Continue anyway?</p>");
                 }
                 else {
-                    solved++;
                     info.html("<p>Great job! " +
                         "Move on to the next puzzle?</p>");
                 }
@@ -90,28 +95,43 @@ $(document).ready(function () {
         isSolved = false;
         info.empty();
         puzzleRoll = [];
+        if (phase > 6) {
+            getRandom25(allPuzzles[phase]);
+        }
         $("#game-space").html(gameSpaceFiller);
         puzzle(allPuzzles[phase], puzzleRoll, phase);
     };
 
 
     function puzzle(answerArr, puzArr, p) {
+        // Set game up
+        isSolved = false;
         time = (answerArr.length * 2);
         console.log(answerArr.length);
         runTimer();
         $("#timer").html(time + " seconds");
+        //Create solved puzzle image
         for (var i = 0; i < answerArr.length; i++) {
             $("#goal-grid").addClass("puzzle-" + p).append(
-                $("<div id='static-block'></div>").css('transform', 'rotate(' + answerArr[i] + 'deg)')
+                $("<div id='static-block' class='block-color puz-" + p + "-color'></div>").css('transform', 'rotate(' + answerArr[i] + 'deg)')
             )
         }
+        //Create randomized puzzle
         for (var i = 0; i < answerArr.length; i++) {
             var r = Math.floor(Math.random() * rotation.length);
             puzArr[i] = rotation[r];
             $("#puzzle-grid").addClass("puzzle-" + p).append(
-                $("<div id='block'></div>").attr("value", i).css('transform', 'rotate(' + puzArr[i] + 'deg)')
+                $("<div id='block' class='block-color puz-" + p + "-color'></div>").attr("value", i).css('transform', 'rotate(' + puzArr[i] + 'deg)')
             )
         }
+        // No self-solving puzzles!
+        checkForSolved(answerArr, puzzleRoll); {
+            if (isSolved === true) {
+                puzArr[0] = puzArr[1] = puzArr[2] = puzArr[3] = rotation[2];
+                isSolved = false;
+            }
+        }
+        // When you click a tile...
         $(document.body).on("click", "#block", function () {
             if (isSolved === false) {
                 var val = $(this).attr("value");
@@ -127,7 +147,7 @@ $(document).ready(function () {
                 console.log(isSolved);
                 console.log(puzzleRoll.join(", "));
             } // end if solved
-        });
+        }); // end on-click
         return isSolved;
     };
 
@@ -138,10 +158,21 @@ $(document).ready(function () {
             }
         }
         isSolved = true;
+        solved++;
         return isSolved;
     }
 
+    function getRandom25(sevenUp) {
+        for (var i = 0; i < 25; i++) {
+            var r = Math.floor(Math.random() * rotation.length);
+            sevenUp[i] = rotation[r];
+        }
+        return sevenUp;
+    };
+
+
     function restartGame() {
+        isSolved = false;
         phase = 0;
         solved = 0;
         unsolved = 0;
