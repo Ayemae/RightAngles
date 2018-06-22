@@ -8,6 +8,7 @@ $(document).ready(function () {
     var phase = 0;
     var isSolved = false;
     var mkContBtn = $("<button id='continue'>Continue</button>");
+    var mkRestartBtn = $("<button id='restart'>Play Again</button>");
     var gameSpaceFiller = "<div class='goal-container'><div id='goal-grid'></div></div><div class='puzzle-container'><div id='puzzle-grid'></div></div>"
 
     var time = 00;
@@ -51,7 +52,12 @@ $(document).ready(function () {
         if (phase === (allPuzzles.length - 1)) {
             info.html("<p>That's all the puzzles!</p>" +
                 "<p>Let's see how you did:</p>")
-            $("#stats").html(`<div class='solved'>Solved: ${solved} </div><div class='unsolved'>Unsolved: ${unsolved}</div>`);
+            info.append(`<div class='solved'>Solved: ${solved} </div><div class='unsolved'>Unsolved: ${unsolved}</div>`);
+            info.append(mkRestartBtn);
+            // start puzzle when you click continue
+            $("#restart").on("click", function () {
+                restartGame();
+            });
         }
         else {
             if (phase === 0) {
@@ -120,10 +126,9 @@ $(document).ready(function () {
                 checkForSolved(answerArr, puzzleRoll);
                 console.log(isSolved);
                 console.log(puzzleRoll.join(", "));
-
             } // end if solved
-            return isSolved;
         });
+        return isSolved;
     };
 
     function checkForSolved(answr, puz) {
@@ -134,6 +139,15 @@ $(document).ready(function () {
         }
         isSolved = true;
         return isSolved;
+    }
+
+    function restartGame() {
+        phase = 0;
+        solved = 0;
+        unsolved = 0;
+        puzzleRoll = [];
+        info.empty();
+        startScreen();
     }
 
 
