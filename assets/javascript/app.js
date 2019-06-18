@@ -14,18 +14,23 @@ $(document).ready(function () {
     var timeByTiles;
 
     //puzzles
-    const definedPuzzles = 7;
+    const definedPuzzles = 11;
     const puzzle1 = [270, 0, 90, 180];
-    const puzzle2 = [90, 270, 0, 270, 90, 180, 180, 0, 270];
-    const puzzle3 = [0, 270, 0, 180, 90, 180, 0, 270, 0];
-    const puzzle4 = [270, 270, 0, 90, 180, 90, 0, 270, 90];
-    const puzzle5 = [0, 270, 0, 270, 90, 180, 90, 180, 270, 90, 180, 0, 180, 0, 270, 90];
-    const puzzle6 = [0, 180, 90, 180, 180, 0, 180, 270, 270, 90, 0, 180, 180, 0, 270, 0];
-    const puzzle7 = [180, 90, 180, 90, 180, 270, 0, 270, 0, 270, 90, 180, 90, 180, 90, 0, 270, 0, 270, 0, 180, 90, 180, 90, 180];
-    var puzzle8 = [];
-    var puzzle9 = [];
-    var puzzle10 = [];
-    var allPuzzles = [puzzle1, puzzle2, puzzle3, puzzle4, puzzle5, puzzle6, puzzle7, puzzle8, puzzle9, puzzle10];
+    const puzzle2 = [270, 90, 270, 90, 270, 90, 270, 90, 270]; 
+    const puzzle3 = [90, 270, 0, 270, 90, 180, 180, 0, 270]; 
+    const puzzle4 = [0, 270, 0, 180, 90, 180, 0, 270, 0];
+    const puzzle5 = [270, 270, 0, 90, 180, 90, 0, 270, 90];
+    const puzzle6 = [90, 0, 0, 180, 270, 0, 180, 180, 90];
+    const puzzle7 = [0, 270, 0, 270, 90, 180, 90, 180, 270, 90, 180, 0, 180, 0, 270, 90];
+    const puzzle8 = [0, 180, 90, 180, 180, 0, 180, 270, 270, 90, 0, 180, 180, 0, 270, 0];
+    const puzzle9 = [90, 180, 0, 270, 0, 270, 90, 180, 180, 90, 90, 0, 270, 0, 180, 270];
+    const puzzle10 = [180, 90, 180, 90, 180, 270, 0, 270, 0, 270, 90, 180, 90, 180, 90, 0, 270, 0, 270, 0, 180, 90, 180, 90, 180];
+    var puzzle11 = [180, 180, 180, 180, 180, 180, 0, 180, 0, 180, 0, 0, 0, 0, 0, 180, 0, 180, 0, 180, 180, 180, 180, 180, 180];
+    var puzzle12 = [];
+    var puzzle13 = [];
+    var puzzle14 = [];
+    var puzzle15 = [];
+    var allPuzzles = [puzzle1, puzzle2, puzzle3, puzzle4, puzzle5, puzzle6, puzzle7, puzzle8, puzzle9, puzzle10, puzzle11, puzzle12, puzzle12, puzzle13, puzzle14, puzzle15];
 
     // Functions
 
@@ -108,7 +113,6 @@ $(document).ready(function () {
 
     puzzle = (answerArr) => {
         const randomPuzzle = [];
-        console.log("puzzle start");
         // Set game up
         isSolved = false;
         timeByTiles = answerArr.length;
@@ -150,11 +154,12 @@ $(document).ready(function () {
             }
 
             checkForSolved(allPuzzles[phase], randomPuzzle);
+            console.log(randomPuzzle.join(", "));
 
             if (isSolved === true) {
                 console.log("The puzzle was solved!");
                 stopTimer();
-                // ANIMATION FOR WIN HERE
+                // TODO: ANIMATION FOR WIN HERE
                 startScreen();
             }
         }); // end on-click
