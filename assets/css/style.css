@@ -113,27 +113,21 @@ header {
     font-weight: bold;
 }
 
-.puzzle-1{
+.puzzle-4x{
     grid-template-columns: 150px 150px;
     grid-template-rows: 150px 150px;
 }
 
-.puzzle-2,
-.puzzle-3 {
+.puzzle-9x {
     grid-template-columns: 100px 100px 100px;
     grid-template-rows: 100px 100px 100px;
 }
-.puzzle-4,
-.puzzle-5 {
+.puzzle-16x{
     grid-template-columns: 80px 80px 80px 80px;
     grid-template-rows: 80px 80px 80px 80px;
 }
 
-.puzzle-6,
-.puzzle-7,
-.puzzle-8,
-.puzzle-9,
-.puzzle-10 {
+.puzzle-25x {
     grid-template-columns: 65px 65px 65px 65px 65px;
     grid-template-rows: 65px 65px 65px 65px 65px;
 }
