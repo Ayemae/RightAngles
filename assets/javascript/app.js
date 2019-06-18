@@ -59,7 +59,7 @@ $(document).ready(function () {
             }
             info.append("<p>That's all of the puzzles!</p>")
             info.append(mkRestartBtn);
-            // start puzzle when you click continue
+            // restart button
             $("#restart").on("click", function () {
                 restartGame();
             });
