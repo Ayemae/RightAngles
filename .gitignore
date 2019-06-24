@@ -1,5 +1,5 @@
 # Don't track content of these folders
-/backup
-/country-quilt
-/asset_creation
+backup/
+country-quilt/
+asset_creation/
 .DS_Store
