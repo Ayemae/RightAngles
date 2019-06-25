@@ -1,21 +1,36 @@
 $(document).ready(function () {
 
     // Globals
-    const rotation = [0, 90, 180, 270];
-    const info = $("#info");
-    let phase = 0;
-    let isSolved = false;
-    const mkContBtn = $("<button id='continue'>Continue</button>");
-    const mkRestartBtn = $("<button id='restart'>Play Again</button>");
-    const gameSpaceFiller = "<div class='goal-container'><div id='goal-grid'></div></div><div class='puzzle-container'><div id='puzzle-grid'></div></div>";
-    const star_img = `<img class="win-star" src="assets/images/star.png">`;
-    const nonstar_img = `<img class="win-star" src="assets/images/non-star.png">`;
+    var rotation = [0, 90, 180, 270];
+    var info = $("#info");
+    var phase = 0;
+    var isSolved = false;
+    var mkContBtn = $("<button id='continue'>Continue</button>");
+    var mkRestartBtn = $("<button id='restart'>Play Again</button>");
+    var gameSpaceFiller = "<div class='goal-container'><div id='goal-grid'></div></div><div class='puzzle-container'><div id='puzzle-grid'></div></div>"
 
-    let time = 0;
-    let clock = undefined;
-    let timeByTiles;
+    var time = 0;
+    var clock = undefined;
+    var timeByTiles;
 
-    //const gameMode = [puzzles3x3, puzzles4x4, puzzles5x5, random5x5];
+    //puzzles
+    const definedPuzzles = 11;
+    const puzzle1 = [270, 0, 90, 180];
+    const puzzle2 = [270, 90, 270, 90, 270, 90, 270, 90, 270]; 
+    const puzzle3 = [90, 270, 0, 270, 90, 180, 180, 0, 270]; 
+    const puzzle4 = [0, 270, 0, 180, 90, 180, 0, 270, 0];
+    const puzzle5 = [270, 270, 0, 90, 180, 90, 0, 270, 90];
+    const puzzle6 = [90, 0, 0, 180, 270, 0, 180, 180, 90];
+    const puzzle7 = [0, 270, 0, 270, 90, 180, 90, 180, 270, 90, 180, 0, 180, 0, 270, 90];
+    const puzzle8 = [0, 180, 90, 180, 180, 0, 180, 270, 270, 90, 0, 180, 180, 0, 270, 0];
+    const puzzle9 = [90, 180, 0, 270, 0, 270, 90, 180, 180, 90, 90, 0, 270, 0, 180, 270];
+    const puzzle10 = [180, 90, 180, 90, 180, 270, 0, 270, 0, 270, 90, 180, 90, 180, 90, 0, 270, 0, 270, 0, 180, 90, 180, 90, 180];
+    var puzzle11 = [180, 180, 180, 180, 180, 180, 0, 180, 0, 180, 0, 0, 0, 0, 0, 180, 0, 180, 0, 180, 180, 180, 180, 180, 180];
+    var puzzle12 = [];
+    var puzzle13 = [];
+    var puzzle14 = [];
+    var puzzle15 = [];
+    var allPuzzles = [puzzle1, puzzle2, puzzle3, puzzle4, puzzle5, puzzle6, puzzle7, puzzle8, puzzle9, puzzle10, puzzle11, puzzle12, puzzle12, puzzle13, puzzle14, puzzle15];
 
     // Functions
 
@@ -34,23 +49,19 @@ $(document).ready(function () {
     }
 
 
-    startScreen = () => {
+    function startScreen() {
         $("#game-space").empty();
-
-        rateStars = () => {
+        if (phase === (allPuzzles.length - 1)) {
+            console.log("Time?: " + timeByTiles * 2);
             if (time < (timeByTiles * 2)) {
-                info.html(star_img + star_img + star_img);
+                info.html("***");
             }
             else if (time > (timeByTiles * 3)) {
-                info.html(star_img + nonstar_img + nonstar_img);
+                info.html("*");
             }
             else {
-                info.html(star_img + star_img + nonstar_img);
-            };
-        };
-
-        if (phase === (puzzles.length - 1)) {
-            rateStars();
+                info.html("**");
+            }
             info.append("<p>That's all of the puzzles!</p>")
             info.append(mkRestartBtn);
             // restart button
@@ -64,7 +75,16 @@ $(document).ready(function () {
                     the image on the left!</p>`);
             }
             else {
-                rateStars();
+                console.log("Time?: " + timeByTiles * 2);
+                if (time < (timeByTiles * 2)) {
+                    info.html("***");
+                }
+                else if (time > (timeByTiles * 3)) {
+                    info.html("*");
+                }
+                else {
+                    info.html("**");
+                }
                 info.append("<p>Great job! " +
                     "Move on to the next puzzle?</p>");
             }
@@ -82,11 +102,12 @@ $(document).ready(function () {
         time = 0;
         isSolved = false;
         info.empty();
-        if (phase > (puzzles - 1)) {
-            getRandom25(puzzles[phase]);
+        // puzzleRoll = [];
+        if (phase > (definedPuzzles - 1)) {
+            getRandom25(allPuzzles[phase]);
         }
         $("#game-space").html(gameSpaceFiller);
-        puzzle(puzzles[phase]);
+        puzzle(allPuzzles[phase]);
     };
 
 
@@ -123,7 +144,7 @@ $(document).ready(function () {
         $(document.body).on("click", "#block", function () {
             var val = $(this).attr("value");
             var r = rotation.indexOf(randomPuzzle[val]);
-            if (phase === 2) { console.log("I rotated and r is:" + r) }
+            if (phase === 2) {console.log("I rotated and r is:" + r)}
             if (r === 3) {
                 randomPuzzle[val] = rotation[0];
                 $(this).css('transform', 'rotate(' + rotation[0] + 'deg)');
@@ -132,40 +153,14 @@ $(document).ready(function () {
                 $(this).css('transform', 'rotate(' + rotation[r + 1] + 'deg)');
             }
 
-            checkForSolved(puzzles[phase], randomPuzzle);
+            checkForSolved(allPuzzles[phase], randomPuzzle);
             console.log(randomPuzzle.join(", "));
 
             if (isSolved === true) {
                 console.log("The puzzle was solved!");
-                const blockSeparate = 12;
-                const paddingShrink = (20 - blockSeparate);
-
                 stopTimer();
-                $(document.body).off("click", "#block");
-
-                // win animation
-                $("#puzzle-grid").animate({
-                    padding: paddingShrink + "px",
-                    gridColumnGap: blockSeparate + "px",
-                    gridRowGap: blockSeparate + "px"
-                }, 600, "swing")
-                .animate({
-                    padding: paddingShrink + "px",
-                    gridColumnGap: blockSeparate + "px",
-                    gridRowGap: blockSeparate + "px"
-                }, 400, "swing")
-                .animate({
-                    padding: "20px",
-                    gridColumnGap: "0px",
-                    gridRowGap: "0px"
-                }, 30, "swing")
-                .animate({
-                    gridColumnGap: "0px",
-                    gridRowGap: "0px"
-                }, 1300, () => {
-                    $( this ).after(startScreen());
-                });
-                // end win animation
+                // TODO: ANIMATION FOR WIN HERE
+                startScreen();
             }
         }); // end on-click
     };
