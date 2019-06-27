@@ -2,12 +2,11 @@ $(document).ready(function () {
 
     // Globals
     let phase = 0;
+    let mode = 0;
 
     let time = 0;
     let clock = undefined;
     let timeByTiles;
-
-    //const gameMode = [puzzles3x3, puzzles4x4, puzzles5x5, random5x5];
 
     // Functions //
 
@@ -26,12 +25,8 @@ $(document).ready(function () {
     ////////////////
 
 
-    startScreen = (lastPuzzleIndex) => {
+    startScreen = (modeLength) => {
         $("#game-space").empty();
-
-        // html element variables
-        const mkContBtn = $("<button id='continue'>Continue</button>");
-        const mkRestartBtn = $("<button id='restart'>Play Again</button>");
 
         rateStars = () => {
             const star_img = `<img class="win-star" src="assets/images/star.png">`;
@@ -48,10 +43,10 @@ $(document).ready(function () {
             };
         };
 
-        if (phase >= (lastPuzzleIndex)) {
+        if (phase >= modeLength) {
             rateStars();
-            $("#info").append("<p>That's all of the puzzles!</p>")
-            $("#info").append(mkRestartBtn);
+            $("#info").append(`<p>That's all of the puzzles!</p>`)
+            $("#info").append(`<button id="restart">Play Again</button>`);
             // restart button
             $("#restart").on("click", function () {
                 restartGame();
@@ -61,47 +56,72 @@ $(document).ready(function () {
             if (phase <= 0) {
                 $("#info").html(`<p>Make the puzzle match
                     the image on the left!</p>`);
+                $("#info").append(`<button id="mode3x3">3x3 Mode</button> <br/>
+                                   <button id="mode4x4">4x4 Mode</button> <br/>
+                                   <button id="mode5x5">5x5 Mode</button> <br/>
+                                   <button id="rand5x5">5x5 Random Mode</button>`);
+                $("#mode3x3").on("click", function () {
+                    mode = 0;
+                    startPuzzle(mode);
+                });
+                $("#mode4x4").on("click", function () {
+                    mode = 1;
+                    startPuzzle(mode);
+                });
+                $("#mode5x5").on("click", function () {
+                    mode = 2;
+                    startPuzzle(mode);
+                });
+                $("#rand5x5").on("click", function () {
+                    mode = 3;
+                    startPuzzle(mode);
+                });
             }
             else {
                 rateStars();
-                $("#info").append("<p>Great job! " +
-                    "Move on to the next puzzle?</p>");
+                $("#info").append(`<p>Great job!</p>`);
+                $("#info").append(`<button id="continue">Next Puzzle</button>`);
+                $("#continue").on("click", function () {
+                    startPuzzle(mode);
+                });
             }
-            $("#info").append(mkContBtn);
-            // start puzzle when you click continue
-            $("#continue").on("click", function () {
-                startPuzzle();
-            });
         }
     }; // end startScreen
 
 
-    startPuzzle = () => {
-
+    startPuzzle = (mode) => {
         console.log("The phase is: " + phase)
         time = 0;
         isSolved = false;
         $("#info").empty();
 
-        // if (phase > (puzzles - 1)) {
-        //     getRandom25(puzzles[phase]);
-        // }
         $("#game-space").html(
-        `<div class="goal-container">
+            `<div class="goal-container">
             <div id="goal-grid"></div>
         </div>
         <div class="puzzle-container">
             <div id="puzzle-grid"></div>   
         </div>`);
 
-        puzzle();
+        puzzle(mode);
     };
 
 
-    puzzle = () => {
+    puzzle = (mode) => {
         const rotation = [0, 90, 180, 270];
-        let puzzles = puzzles3x3;
-        const randomPuzzle = [];
+        const gameMode = [puzzles3x3, puzzles4x4, puzzles5x5];
+        let puzzles = [];
+        let randomPuzzle = [];
+        let modeLength = 10;
+        if (mode < 3) {
+            puzzles = gameMode[mode];
+            modeLength = puzzles.length;
+        }
+        else {
+            puzzles[phase] = getRandom25();
+            modeLength = 20;
+        };
+        console.log(`Mode length: ${modeLength}`);
 
         // Set game up
         isSolved = false;
@@ -127,7 +147,6 @@ $(document).ready(function () {
         $(document.body).on("click", "#block", function () {
             var val = $(this).attr("value");
             var r = rotation.indexOf(randomPuzzle[val]);
-            if (phase === 2) { console.log("I rotated and r is:" + r) }
             if (r === 3) {
                 randomPuzzle[val] = rotation[0];
                 $(this).css('transform', 'rotate(' + rotation[0] + 'deg)');
@@ -153,22 +172,22 @@ $(document).ready(function () {
                     gridColumnGap: blockSeparate + "px",
                     gridRowGap: blockSeparate + "px"
                 }, 600, "swing")
-                .animate({
-                    padding: paddingShrink + "px",
-                    gridColumnGap: blockSeparate + "px",
-                    gridRowGap: blockSeparate + "px"
-                }, 400, "swing")
-                .animate({
-                    padding: "20px",
-                    gridColumnGap: "0px",
-                    gridRowGap: "0px"
-                }, 30, "swing")
-                .animate({
-                    gridColumnGap: "0px",
-                    gridRowGap: "0px"
-                }, 1300, () => {
-                    $( this ).after(startScreen(puzzles.length));
-                });
+                    .animate({
+                        padding: paddingShrink + "px",
+                        gridColumnGap: blockSeparate + "px",
+                        gridRowGap: blockSeparate + "px"
+                    }, 400, "swing")
+                    .animate({
+                        padding: "20px",
+                        gridColumnGap: "0px",
+                        gridRowGap: "0px"
+                    }, 30, "swing")
+                    .animate({
+                        gridColumnGap: "0px",
+                        gridRowGap: "0px"
+                    }, 1300, () => {
+                        $(this).after(startScreen(modeLength));
+                    });
                 // end win animation
             }
         }); // end on-click
@@ -185,19 +204,20 @@ $(document).ready(function () {
         return isSolved;
     }
 
-    getRandom25 = (rand5x5puz) => {
+    getRandom25 = () => {
+        const rotation = [0, 90, 180, 270];
+        let rand5x5puzzle = [];
         for (var i = 0; i < 25; i++) {
             var r = Math.floor(Math.random() * rotation.length);
-            rand5x5puz[i] = rotation[r];
+            rand5x5puzzle.push(rotation[r]);
         }
-        return rand5x5puz;
+        console.log(rand5x5puzzle)
+        return rand5x5puzzle;
     };
 
 
     restartGame = () => {
-        //isSolved = false;
         phase = 0;
-        // puzzleRoll = [];
         $("#info").empty();
         startScreen();
         return phase;
