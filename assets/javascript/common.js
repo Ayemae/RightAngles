@@ -26,6 +26,15 @@ $(document).ready(function () {
 
 
     startScreen = (modeLength) => {
+        let puzzlePosition = "right";
+        let answerPosition = "left";
+
+        if (window.innerWidth < 645) {
+            puzzlePosition = "bottom";
+            answerPosition = "top";
+        }
+
+
         $("#game-space").empty();
 
         rateStars = () => {
@@ -54,8 +63,9 @@ $(document).ready(function () {
         }
         else {
             if (phase <= 0) {
-                $("#info").html(`<p>Make the puzzle match
-                    the image on the left!</p>`);
+                $("#info").html(`<p>Make the puzzle on the 
+                ${puzzlePosition} match the image on the 
+                    ${answerPosition}!</p>`);
                 $("#info").append(`<button id="mode3x3">3x3 Mode</button> <br/>
                                    <button id="mode4x4">4x4 Mode</button> <br/>
                                    <button id="mode5x5">5x5 Mode</button> <br/>
